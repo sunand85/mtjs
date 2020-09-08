@@ -11,6 +11,9 @@
     <description>Multi Tenant Queueing System</description>
 
     <modules>
+        <module>q-common</module>
+        <module>q-client</module>
+        <module>q-broker</module>
     </modules>
 
     <properties>
@@ -138,6 +141,12 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>com.newminds.mtqs</groupId>
+                <artifactId>q-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
             <!-- Mr. Liquibase the db expert-->
             <dependency>
                 <groupId>org.liquibase</groupId>
@@ -222,9 +231,6 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
                     <testFailureIgnore>true</testFailureIgnore>
-                    <excludedGroups>${testcase.excludedGroups}</excludedGroups>
-                    <!--https://github.com/jayway/powermock/issues/375-->
-                    <argLine>${surefire.arg}</argLine>
                 </configuration>
                 <version>2.17</version>
             </plugin>

@@ -1,0 +1,8 @@
+{
+  "brokerUrl" : "http://localhost:4000/broker",
+  "brokerToken" : "",
+  "id" : "1",
+  "name" : "ABC",
+  "topics" : ["events", "lrj"],
+  "poll" : 2000
+}
