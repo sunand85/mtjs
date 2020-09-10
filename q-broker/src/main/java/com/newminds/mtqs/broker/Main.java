@@ -35,7 +35,7 @@ public class Main {
 
 //  @EventListener(ApplicationReadyEvent.class)
   public void onApplicationReady() {
-    Topic topic = Topic.builder().name("event").durable(true).ordered(true).tenantId("123").consumerCount(1).build();
+    Topic topic = Topic.builder().name("event").durable(true).ordered(true).build();
     topicRepository.save(topic).subscribe();
 
     Job simpleJob = JobBuilder.asNewJob()

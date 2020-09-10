@@ -23,8 +23,14 @@ public class ConsumerInfo implements Serializable {
   private String host;
   private String port;
   private String startTime;
+  private boolean alive; //HeartBeat Monitor
   private Stats stats;
 
   private long poll = 1000; //in ms
-  private String topic; //It can be a list as well in future
+//  private String topic; //It can be a list as well in future
+
+  public String getJobUrl() {
+    //need to handle http(s) based on some configuration property
+    return "http://" + host + ":" + port +"/consumer/jobs";
+  }
 }

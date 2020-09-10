@@ -45,6 +45,7 @@ public class JobBuilder {
 
   public Job build() {
     Job job = null;
+
     switch (type) {
       case SIMPLE:
         job = new SimpleJob(name, header, payload, parameters);

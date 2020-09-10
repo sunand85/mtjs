@@ -1,19 +1,17 @@
 package com.newminds.mtqs.consumer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.newminds.mtqs.common.consumer.BrokerInfo;
 import com.newminds.mtqs.common.consumer.ConsumerInfo;
 import com.newminds.mtqs.common.job.Job;
+import com.newminds.mtqs.consumer.config.ConsumerConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.joda.time.DateTime;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.mongodb.repository.config.EnableReactiveMongoRepositories;
 import org.springframework.http.MediaType;
-import org.springframework.web.reactive.function.BodyInserter;
+import org.springframework.web.reactive.config.EnableWebFlux;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
@@ -22,7 +20,7 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.management.ManagementFactory;
 import java.net.InetAddress;
-import java.net.UnknownHostException;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -30,17 +28,19 @@ import java.util.List;
  **/
 @Slf4j
 @SpringBootApplication
+@EnableWebFlux
 @EnableReactiveMongoRepositories
-public class Consumer implements CommandLineRunner {
+public class ConsumerAppStarter {
 
   private static ConsumerConfig consumerConfig;
 
   public static void main(String[] args) throws IOException, InterruptedException {
-    SpringApplication application = new SpringApplication(Consumer.class);
-    application.setWebApplicationType(WebApplicationType.NONE);
+    loadConsumerConfig();
+    SpringApplication application = new SpringApplication(ConsumerAppStarter.class);
+//    application.setWebApplicationType(WebApplicationType.NONE);
+    application.setDefaultProperties(Collections.singletonMap("server.port", consumerConfig.getPort()));
     application.run(args);
 
-    loadConsumerConfig();
     bootstrap();
   }
 
@@ -57,7 +57,7 @@ public class Consumer implements CommandLineRunner {
   }
 
   //Start reading all jobs assigned to this consumer
-  private static void bootstrap() throws UnknownHostException, InterruptedException {
+  private static void bootstrap() throws InterruptedException {
     //Register Consumer to Broker
     WebClient webClient = WebClient.create(consumerConfig.getBrokerUrl() + "/consumers");
     ConsumerInfo consumerInfo = prepareConsumerInfo(consumerConfig);
@@ -67,7 +67,7 @@ public class Consumer implements CommandLineRunner {
             .retrieve()
             .bodyToMono(ConsumerInfo.class);
     Mono<ConsumerInfo> response = consumerInfoMono.single().switchIfEmpty(Mono.error(new RuntimeException("Registration Failed")));
-    log.info("Registered " + response.block().toString());
+    log.info("Registered " + response.blockOptional().orElseThrow(() -> new RuntimeException("Response Came as EMPTY")));
 
     //Now each consumer will create a DAG on the incoming jobs to decide on what can be executed in parallel
     //Keep polling for jobs and update the DAG
@@ -77,7 +77,7 @@ public class Consumer implements CommandLineRunner {
     //We could use simple FCFS or We could use RoundRobin on Tenant Wise Job
 
     //Have a max job this consumer can pick and based on that pull the job from DB or Broker
-    poll();
+//    poll();
   }
 
   private static ConsumerInfo prepareConsumerInfo(ConsumerConfig consumerConfig) {
@@ -85,8 +85,10 @@ public class Consumer implements CommandLineRunner {
     String id = "CONN_" + (consumerConfig.getId() != null ? consumerConfig.getId() : DateTime.now().getMillis() + "_" + ManagementFactory.getRuntimeMXBean().getName());
     consumerInfo.setId(id);
     consumerInfo.setName(consumerConfig.getName());
-    consumerInfo.setPoll(consumerConfig.getPoll());
-    consumerInfo.setTopic(consumerConfig.getTopics().get(0)); //Hard-coding to one topic
+    consumerInfo.setHost(InetAddress.getLoopbackAddress().getHostName());
+    consumerInfo.setPort(consumerConfig.getPort());
+    consumerInfo.setAlive(true);
+//    consumerInfo.setTopic(consumerConfig.getTopics().get(0)); //Hard-coding to one topic
     return consumerInfo;
   }
 
@@ -102,10 +104,5 @@ public class Consumer implements CommandLineRunner {
   private static List<Job> fetchJobs() {
 //    broker.fet
     return null;
-  }
-
-  @Override
-  public void run(String... args) throws Exception {
-
   }
 }

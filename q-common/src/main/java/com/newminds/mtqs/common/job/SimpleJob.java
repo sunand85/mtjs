@@ -1,6 +1,8 @@
 package com.newminds.mtqs.common.job;
 
-import lombok.Data;
+import lombok.*;
+import lombok.experimental.Accessors;
+import org.springframework.data.annotation.AccessType;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -9,14 +11,18 @@ import org.springframework.data.mongodb.core.mapping.Document;
  **/
 @Data
 @Document("simple_job")
+@NoArgsConstructor
+@AllArgsConstructor
 public class SimpleJob implements Job {
 
   @Id
   private String id;
   private String name;
   private Header header;
+  @Setter(value = AccessLevel.PRIVATE)
+  private JobType jobType = JobType.SIMPLE;
   private Object payload;
-  private final JobParameters parameters;
+  private JobParameters parameters;
 
   public SimpleJob(String name, Header header, Object payload, JobParameters parameters) {
     this.name = name;

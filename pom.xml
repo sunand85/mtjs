@@ -12,7 +12,7 @@
 
     <modules>
         <module>q-common</module>
-        <module>q-client</module>
+        <module>q-consumer</module>
         <module>q-broker</module>
     </modules>
 

@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.newminds.mtqs</groupId>
-    <artifactId>q-client</artifactId>
+    <artifactId>q-consumer</artifactId>
 
     <dependencies>
         <dependency>

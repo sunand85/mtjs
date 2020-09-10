@@ -1,8 +1,11 @@
 package com.newminds.mtqs.common.job;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -11,13 +14,17 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Data
 @Builder
 @Document("topic")
+@NoArgsConstructor
+@AllArgsConstructor
 public class Topic {
   @Id
   private String id;
+  @Indexed(background = true, unique = true)
   private String name;
-  private String tenantId;
+  private boolean multiTenant;
   private boolean durable; //By Default the Jobs against a topic will be deleted. If it is set to true we will copy it to another durable storage.
   private boolean parallel;
   private boolean ordered;
-  private int consumerCount = 1;
+
+  private String offset; // Last job read by consumer from this topic
 }

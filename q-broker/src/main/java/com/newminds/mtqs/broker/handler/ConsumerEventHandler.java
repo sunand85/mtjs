@@ -20,5 +20,6 @@ public class ConsumerEventHandler {
     log.info("Created Timestamp : {}", consumerCreatedEvent.getTimestamp());
 
     //Start Assigning Work to Consumer if the Topic has some incoming job
+    //Raise another event to Broker so that it can see what jobs can be pushed to the newly added consumer
   }
 }

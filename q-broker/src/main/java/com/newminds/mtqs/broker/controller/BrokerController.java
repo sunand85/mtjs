@@ -1,5 +1,6 @@
 package com.newminds.mtqs.broker.controller;
 
+import com.newminds.mtqs.broker.event.JobCreatedEvent;
 import com.newminds.mtqs.broker.repository.ConsumerInfoRepository;
 import com.newminds.mtqs.broker.repository.SimpleJobRepository;
 import com.newminds.mtqs.broker.repository.TopicRepository;
@@ -8,6 +9,7 @@ import com.newminds.mtqs.common.consumer.ConsumerInfo;
 import com.newminds.mtqs.common.job.Job;
 import com.newminds.mtqs.common.job.SimpleJob;
 import com.newminds.mtqs.common.job.Topic;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
@@ -25,12 +27,14 @@ public class BrokerController {
   private final ConsumerInfoRepository consumerInfoRepository;
 
   private final ConsumerInfoService consumerInfoService;
+  private final ApplicationEventPublisher eventPublisher;
 
-  public BrokerController(SimpleJobRepository jobRepository, TopicRepository topicRepository, ConsumerInfoRepository consumerInfoRepository, ConsumerInfoService consumerInfoService) {
+  public BrokerController(SimpleJobRepository jobRepository, TopicRepository topicRepository, ConsumerInfoRepository consumerInfoRepository, ConsumerInfoService consumerInfoService, ApplicationEventPublisher eventPublisher) {
     this.jobRepository = jobRepository;
     this.topicRepository = topicRepository;
     this.consumerInfoRepository = consumerInfoRepository;
     this.consumerInfoService = consumerInfoService;
+    this.eventPublisher = eventPublisher;
   }
 
   //CONSUMER REGISTRY API
@@ -103,7 +107,10 @@ public class BrokerController {
 
   @PostMapping("/jobs")
   public Mono<Job> addJob(@RequestBody SimpleJob job) {
-    return jobRepository.save(job);
+
+    Mono<Job> simpleJob = jobRepository.save(job);
+    eventPublisher.publishEvent(new JobCreatedEvent(this, simpleJob));
+    return simpleJob;
   }
 
   @PutMapping("/jobs/{id}")

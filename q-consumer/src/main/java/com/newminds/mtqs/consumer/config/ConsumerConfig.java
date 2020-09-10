@@ -1,9 +1,7 @@
-package com.newminds.mtqs.consumer;
+package com.newminds.mtqs.consumer.config;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
-
-import java.util.List;
 
 /**
  * Created by Sunand on 08/09/20
@@ -13,7 +11,7 @@ import java.util.List;
 public class ConsumerConfig {
   private String id;
   private String name;
-  private List<String> topics;
-  private int poll = 2000;
+  private String host;
+  private String port;
   private String brokerUrl;
 }

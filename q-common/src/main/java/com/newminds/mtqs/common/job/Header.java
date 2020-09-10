@@ -1,7 +1,9 @@
 package com.newminds.mtqs.common.job;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.joda.time.DateTime;
 
 import java.util.Map;
@@ -11,6 +13,8 @@ import java.util.Map;
  **/
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Header {
     private String traceId;
     private String userId;

@@ -7,4 +7,6 @@ import java.util.concurrent.Callable;
  **/
 public interface Job extends Callable<JobReport> {
   String getId();
+
+  JobType getJobType();
 }

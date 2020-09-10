@@ -3,6 +3,6 @@
   "brokerToken" : "",
   "id" : "1",
   "name" : "ABC",
-  "topics" : ["events", "lrj"],
-  "poll" : 2000
+  "host" : "localhost",
+  "port" : "5001"
 }

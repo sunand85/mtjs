@@ -1,7 +1,19 @@
 package com.newminds.mtqs.broker.event;
 
+import com.newminds.mtqs.common.job.Topic;
+import lombok.Getter;
+import org.springframework.context.ApplicationEvent;
+
 /**
  * Created by Sunand on 09/09/20
  **/
-public class TopicCreatedEvent {
+@Getter
+public class TopicCreatedEvent extends ApplicationEvent {
+
+  private Topic topic;
+
+  public TopicCreatedEvent(Object source, Topic topic) {
+    super(source);
+    this.topic = topic;
+  }
 }
