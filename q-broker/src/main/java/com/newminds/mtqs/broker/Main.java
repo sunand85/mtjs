@@ -41,7 +41,7 @@ public class Main {
     Job simpleJob = JobBuilder.asNewJob()
             .name("sunand")
             .header(Header.builder().tenantId("123").tenantType("demo").source("local").userId("abc").topic("event").now(DateTime.now()).build())
-            .payload(new String("Job1"))
+            .payload("Job1")
 //            .type(JobType.SIMPLE)
             .build();
 

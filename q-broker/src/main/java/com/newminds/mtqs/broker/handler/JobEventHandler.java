@@ -110,8 +110,7 @@ public class JobEventHandler {
     int activeJobs2 = c2.getStats().getActiveJobs();
 
     //Decision
-    TopicConsumerLookup tcl = activeJobs1 < activeJobs2 ? tcl1 : tcl2;
-    return tcl;
+    return activeJobs1 < activeJobs2 ? tcl1 : tcl2;
   }
 
   /**

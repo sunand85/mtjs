@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 @Getter
 public class ConsumerCreatedEvent extends ApplicationEvent {
 
-  private ConsumerInfo info;
+  private final ConsumerInfo info;
 
   public ConsumerCreatedEvent(Object source, ConsumerInfo info) {
     super(source);

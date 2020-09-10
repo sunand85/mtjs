@@ -120,9 +120,9 @@ public class Broker {
     topics.remove(topic);
 
     List<Job> jobList = jobsByTopic.get(topic.getName());
-    jobList.stream().forEach(job -> jobs.remove(job));
+    jobList.forEach(job -> jobs.remove(job));
 
-    jobsByTenantId.values().stream().forEach(jlist -> jlist.stream().forEach(job -> {
+    jobsByTenantId.values().forEach(jlist -> jlist.forEach(job -> {
       if(jobList.contains(job))
       jlist.remove(job);
     }));
@@ -136,7 +136,7 @@ public class Broker {
     List<Job> removeJobsIfEligible = jobsByTenantId.get(tenantId);
     List<Job> jobList = jobsByTopicByTenantId.get(key);
 
-    jobList.stream().forEach(job -> {
+    jobList.forEach(job -> {
       this.jobs.remove(job);
       removeJobsIfEligible.remove(job);
     });
