@@ -7,6 +7,7 @@ import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
  * Created by Sunand on 10/09/20
  **/
 public class ConsumerInfoCustomImpl implements ConsumerInfoCustom {
+
   @Autowired
   private ReactiveMongoTemplate reactiveMongoTemplate;
 

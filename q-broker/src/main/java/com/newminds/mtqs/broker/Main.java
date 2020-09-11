@@ -5,13 +5,11 @@ import com.newminds.mtqs.broker.repository.TopicRepository;
 import com.newminds.mtqs.common.job.Header;
 import com.newminds.mtqs.common.job.Job;
 import com.newminds.mtqs.common.job.JobBuilder;
-import com.newminds.mtqs.common.job.Topic;
+import com.newminds.mtqs.common.topic.Topic;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.context.event.EventListener;
 import org.springframework.data.mongodb.repository.config.EnableReactiveMongoRepositories;
 import org.springframework.web.reactive.config.EnableWebFlux;
 

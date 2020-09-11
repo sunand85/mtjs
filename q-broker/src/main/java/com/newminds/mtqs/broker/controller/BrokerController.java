@@ -8,7 +8,7 @@ import com.newminds.mtqs.broker.service.ConsumerInfoService;
 import com.newminds.mtqs.common.consumer.ConsumerInfo;
 import com.newminds.mtqs.common.job.Job;
 import com.newminds.mtqs.common.job.SimpleJob;
-import com.newminds.mtqs.common.job.Topic;
+import com.newminds.mtqs.common.topic.Topic;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

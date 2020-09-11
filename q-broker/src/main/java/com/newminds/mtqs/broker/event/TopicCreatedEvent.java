@@ -1,6 +1,6 @@
 package com.newminds.mtqs.broker.event;
 
-import com.newminds.mtqs.common.job.Topic;
+import com.newminds.mtqs.common.topic.Topic;
 import lombok.Getter;
 import org.springframework.context.ApplicationEvent;
 

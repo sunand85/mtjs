@@ -1,4 +1,4 @@
-package com.newminds.mtqs.common.job;
+package com.newminds.mtqs.common.topic;
 
 import com.newminds.mtqs.common.consumer.ConsumerInfo;
 import lombok.Data;

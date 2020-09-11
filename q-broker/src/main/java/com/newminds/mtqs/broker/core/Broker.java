@@ -4,7 +4,7 @@ import com.newminds.mtqs.common.consumer.BrokerInfo;
 import com.newminds.mtqs.common.job.Job;
 import com.newminds.mtqs.common.job.SimpleJob;
 import com.newminds.mtqs.common.job.Stats;
-import com.newminds.mtqs.common.job.Topic;
+import com.newminds.mtqs.common.topic.Topic;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
