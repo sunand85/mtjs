@@ -23,6 +23,7 @@ public class SimpleJob implements Job {
   private JobType jobType = JobType.SIMPLE;
   private Object payload;
   private JobParameters parameters;
+  private JobStatus status;
 
   public SimpleJob(String name, Header header, Object payload, JobParameters parameters) {
     this.name = name;

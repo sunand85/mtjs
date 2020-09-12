@@ -56,7 +56,8 @@ public class JobEventHandler {
     topic.setTenantId(tenantId);
     ConsumerInfo consumerInfo = selector.select(topic);
     //TODO: if a consumer has reached max threshold then again go and pick a new consumer
-    //or If the consumer did not accept the job then we have to either pick a new consumer or report this error.
+    //Or If the consumer did not accept the job then we have to either pick a new consumer or report this error.
+    //Or it can be kind of backpressure where we have to create a thread monitor to continuously poll the selected consumer if it can accept the job or report after a certain period of time
     ConsumerClient.pushJobToConsumer(consumerInfo, simpleJob);
     log.info("Done");
   }

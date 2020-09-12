@@ -5,6 +5,16 @@ package com.newminds.mtqs.common.job;
  **/
 public enum JobStatus {
   /**
+   * Job stored in DB but yet to find a suitable consumer
+   */
+  STORED,
+
+  /**
+   * Job pushed and accepted by the consumer
+   */
+  ACCEPTED,
+
+  /**
    * The job is starting (opening record reader/writer).
    */
   STARTING,

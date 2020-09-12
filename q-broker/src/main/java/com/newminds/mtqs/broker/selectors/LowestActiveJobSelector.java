@@ -27,6 +27,7 @@ public class LowestActiveJobSelector extends AbstractSelector {
     super(consumerInfoRepository, topicRepository, topicConsumerRepository);
   }
 
+  //This is kind of work stealing algorithm
   @Override
   public ConsumerInfo select(Topic topic) {
     if(topic.isMultiTenant()) {

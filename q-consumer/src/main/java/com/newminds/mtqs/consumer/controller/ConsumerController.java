@@ -21,8 +21,6 @@ public class ConsumerController {
   @PostMapping("/jobs")
   public Mono<JobResponse> acceptJob(@RequestBody SimpleJob job) {
     log.info("Received Request, {}", job.getId());
-    ExecutorService executorService = Executors.newSingleThreadExecutor();
-    Future<JobReport> future = executorService.submit(job);
     return Mono.just(new JobResponse(job.getId(), UUID.randomUUID().toString(), JobStatus.STARTING));
   }
 
