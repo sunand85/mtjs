@@ -73,10 +73,10 @@ public class Broker {
   }
 
   private final List<Topic> topics = Lists.newArrayList();
-  private final List<Job> jobs = Lists.newArrayList();
-  private final Map<String, List<Job>> jobsByTenantId = Maps.newConcurrentMap();
-  private final Map<String, List<Job>> jobsByTopic = Maps.newConcurrentMap();
-  private final Map<String, List<Job>> jobsByTopicByTenantId = Maps.newConcurrentMap();
+  private final List<SimpleJob> jobs = Lists.newArrayList();
+  private final Map<String, List<SimpleJob>> jobsByTenantId = Maps.newConcurrentMap();
+  private final Map<String, List<SimpleJob>> jobsByTopic = Maps.newConcurrentMap();
+  private final Map<String, List<SimpleJob>> jobsByTopicByTenantId = Maps.newConcurrentMap();
   private final Map<String, Set<String>> consumerTopicPartitionMap = Maps.newConcurrentMap();
   private final Map<String, Set<String>> consumerTopicByTenantIdPartitionMap = Maps.newConcurrentMap();
 
@@ -85,7 +85,7 @@ public class Broker {
   private final Map<String, BrokerInfo> activeConsumerMap = Maps.newConcurrentMap();
   private final Map<String, Stats> consumerStats = Maps.newConcurrentMap();
 
-  private final Map<String, List<Job>> jobsByConsumer = Maps.newConcurrentMap();
+  private final Map<String, List<SimpleJob>> jobsByConsumer = Maps.newConcurrentMap();
 
   public void addConsumer(BrokerInfo consumer) {
     activeConsumers.add(consumer);
@@ -119,7 +119,7 @@ public class Broker {
   public void deleteTopic(Topic topic) {
     topics.remove(topic);
 
-    List<Job> jobList = jobsByTopic.get(topic.getName());
+    List<SimpleJob> jobList = jobsByTopic.get(topic.getName());
     jobList.forEach(job -> jobs.remove(job));
 
     jobsByTenantId.values().forEach(jlist -> jlist.forEach(job -> {
@@ -133,8 +133,8 @@ public class Broker {
   public void deleteTopicByTenantId(Topic topic, String tenantId) {
     //topic.getTenantId() should ideally come from RCP or from the source request and should not be stored inside Topic class
     String key = topic.getName() + "_" + tenantId;
-    List<Job> removeJobsIfEligible = jobsByTenantId.get(tenantId);
-    List<Job> jobList = jobsByTopicByTenantId.get(key);
+    List<SimpleJob> removeJobsIfEligible = jobsByTenantId.get(tenantId);
+    List<SimpleJob> jobList = jobsByTopicByTenantId.get(key);
 
     jobList.forEach(job -> {
       this.jobs.remove(job);
@@ -150,7 +150,7 @@ public class Broker {
 
     //By Tenant ID
     String tenantId = job.getHeader().getTenantId();
-    List<Job> byTenantId = jobsByTenantId.getOrDefault(tenantId, Lists.newArrayList());
+    List<SimpleJob> byTenantId = jobsByTenantId.getOrDefault(tenantId, Lists.newArrayList());
     byTenantId.add(job);
     jobsByTenantId.put(tenantId, byTenantId);
 
@@ -160,11 +160,11 @@ public class Broker {
     String topic = job.getHeader().getTopic();
     //The below is for topics where Partition Key is Tenant Id
     String key = topic + "_" + tenantId;
-    List<Job> byTopic = jobsByTopic.getOrDefault(topic, Lists.newArrayList());
+    List<SimpleJob> byTopic = jobsByTopic.getOrDefault(topic, Lists.newArrayList());
     byTopic.add(job);
     jobsByTopic.put(topic, byTopic);
 
-    List<Job> byTopicByTenant = jobsByTopicByTenantId.getOrDefault(key, Lists.newArrayList());
+    List<SimpleJob> byTopicByTenant = jobsByTopicByTenantId.getOrDefault(key, Lists.newArrayList());
     byTopicByTenant.add(job);
     jobsByTopicByTenantId.put(key, byTopicByTenant);
 

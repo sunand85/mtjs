@@ -1,7 +1,6 @@
 package com.newminds.mtqs.broker.handler;
 
 import com.newminds.mtqs.broker.selectors.LowestActiveJobSelector;
-import com.newminds.mtqs.broker.selectors.Selector;
 import com.newminds.mtqs.broker.support.ConsumerClient;
 import com.newminds.mtqs.broker.event.JobCreatedEvent;
 import com.newminds.mtqs.broker.repository.ConsumerInfoRepository;

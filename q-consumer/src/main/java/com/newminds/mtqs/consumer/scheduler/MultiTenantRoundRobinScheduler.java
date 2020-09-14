@@ -4,9 +4,7 @@ import com.newminds.mtqs.common.job.JobStatus;
 import com.newminds.mtqs.common.job.SimpleJob;
 import com.newminds.mtqs.consumer.support.JobHolder;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import reactor.core.publisher.Mono;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;

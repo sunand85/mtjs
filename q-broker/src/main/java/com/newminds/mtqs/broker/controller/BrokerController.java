@@ -96,25 +96,25 @@ public class BrokerController {
 
   //JOBS API
   @GetMapping("/jobs")
-  public Flux<Job> getAllJobs() {
+  public Flux<SimpleJob> getAllJobs() {
     return jobRepository.findAll();
   }
 
   @GetMapping("/jobs/{id}")
-  public Mono<Job> getJob(@PathVariable("id") String jobId) {
+  public Mono<SimpleJob> getJob(@PathVariable("id") String jobId) {
     return jobRepository.findById(jobId);
   }
 
   @PostMapping("/jobs")
-  public Mono<Job> addJob(@RequestBody SimpleJob job) {
+  public Mono<SimpleJob> addJob(@RequestBody SimpleJob job) {
 
-    Mono<Job> simpleJob = jobRepository.save(job);
+    Mono<SimpleJob> simpleJob = jobRepository.save(job);
     eventPublisher.publishEvent(new JobCreatedEvent(this, simpleJob));
     return simpleJob;
   }
 
   @PutMapping("/jobs/{id}")
-  public Mono<Job> updateJob(@PathVariable("id") String jobId, @RequestBody SimpleJob job) {
+  public Mono<SimpleJob> updateJob(@PathVariable("id") String jobId, @RequestBody SimpleJob job) {
     job.setId(jobId);
     return jobRepository.save(job);
   }

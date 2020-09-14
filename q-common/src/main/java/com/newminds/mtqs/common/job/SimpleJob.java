@@ -1,8 +1,6 @@
 package com.newminds.mtqs.common.job;
 
 import lombok.*;
-import lombok.experimental.Accessors;
-import org.springframework.data.annotation.AccessType;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -13,7 +11,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document("simple_job")
 @NoArgsConstructor
 @AllArgsConstructor
-public class SimpleJob implements Job {
+public class SimpleJob {
 
   @Id
   private String id;
@@ -30,10 +28,5 @@ public class SimpleJob implements Job {
     this.header = header;
     this.payload = payload;
     this.parameters = parameters;
-  }
-
-  @Override
-  public JobReport call() throws Exception {
-    return null;
   }
 }
