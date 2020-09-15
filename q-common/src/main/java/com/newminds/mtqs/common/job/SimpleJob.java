@@ -17,6 +17,7 @@ public class SimpleJob {
   private String id;
   private String name;
   private Header header;
+  private String topic;
   @Setter(value = AccessLevel.PRIVATE)
   private JobType jobType = JobType.SIMPLE;
   private Object payload;

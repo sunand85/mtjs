@@ -5,10 +5,9 @@ import com.newminds.mtqs.common.job.SimpleJob;
 import lombok.Data;
 import org.springframework.stereotype.Service;
 
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentLinkedDeque;
+import java.util.stream.Stream;
 
 /**
  * Created by Sunand on 13/09/20
@@ -20,8 +19,11 @@ public class JobHolder {
   /**
    * Going to hold all jobs by topic, where topic can be multi-tenant
    * Also try to hold all related jobs within a single consumer. Broker will take care of this.
+   *
+   * Growing size needs to be curbed and should have some boundary conditions.
    */
   private static final Map<String, ConcurrentLinkedDeque<SimpleJob>> SIMPLE_JOB_MAP = Maps.newConcurrentMap();
+
   /*private static final JobHolder JOB_HOLDER = new JobHolder();
 
   private JobHolder() {
@@ -40,10 +42,28 @@ public class JobHolder {
     return SIMPLE_JOB_MAP.keySet();
   }
 
+  public void addJob(SimpleJob simpleJob) {
+    String topic = simpleJob.getTopic();
+    ConcurrentLinkedDeque<SimpleJob> simpleJobs = SIMPLE_JOB_MAP.containsKey(topic) ? SIMPLE_JOB_MAP.get(topic) : new ConcurrentLinkedDeque<>();
+    simpleJobs.add(simpleJob);
+    SIMPLE_JOB_MAP.put(topic, simpleJobs);
+  }
+
+  public Stream<SimpleJob> getJobs() {
+    //List of Lists to single Stream of Jobs
+    return Stream.of(SIMPLE_JOB_MAP.values())
+            .flatMap(Collection::stream)
+            .flatMap(Collection::stream);
+  }
+
   public void addJobByTopic(String topic, SimpleJob simpleJob) {
     ConcurrentLinkedDeque<SimpleJob> simpleJobs = SIMPLE_JOB_MAP.containsKey(topic) ? SIMPLE_JOB_MAP.get(topic) : new ConcurrentLinkedDeque<>();
     simpleJobs.add(simpleJob);
     SIMPLE_JOB_MAP.put(topic, simpleJobs);
+  }
+
+  public boolean isTopicPresent(String topic) {
+    return SIMPLE_JOB_MAP.containsKey(topic);
   }
 
   //Queue Based FIFO

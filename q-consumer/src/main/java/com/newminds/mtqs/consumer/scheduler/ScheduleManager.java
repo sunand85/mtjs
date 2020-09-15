@@ -19,7 +19,7 @@ public class ScheduleManager {
     this.jobHolder = jobHolder;
   }
 
-  @Scheduled(fixedRate = 5000)
+  @Scheduled(fixedRate = 1000)
   public void poll() {
     //Skip Schedule if the jobs are yet to complete and its double the number of fixed threads.
     roundRobinScheduler.schedule();

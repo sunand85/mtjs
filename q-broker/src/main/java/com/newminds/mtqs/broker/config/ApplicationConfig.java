@@ -15,7 +15,7 @@ public class ApplicationConfig {
   @Bean(name = "applicationEventMulticaster")
   public ApplicationEventMulticaster simpleApplicationEventMulticaster() {
     SimpleApplicationEventMulticaster eventMulticaster = new SimpleApplicationEventMulticaster();
-    eventMulticaster.setTaskExecutor(new SimpleAsyncTaskExecutor("async-event-trigger"));
+    eventMulticaster.setTaskExecutor(new SimpleAsyncTaskExecutor("async-event-trigger-"));
     return eventMulticaster;
   }
 }
